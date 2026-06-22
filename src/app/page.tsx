@@ -1,7 +1,21 @@
 import Navbar from "@/components/Navbar";
 import KpiCard from "@/components/Tarjeta";
+import { mockDashboardData } from "@/lib/mockData";
 
 export default function AnalyticsDashboard() {
+
+  // Extraemos las métricas de nuestros datos simulados
+  const { metrics } = mockDashboardData;
+
+  // Helper para formatear moneda local
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('es-AR', { 
+      style: 'currency', 
+      currency: 'ARS',
+      maximumFractionDigits: 0 
+    }).format(amount);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Navbar />
@@ -18,10 +32,23 @@ export default function AnalyticsDashboard() {
 
         {/* 1. Sección de Tarjetas*/}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <KpiCard title="Usuarios Activos" value="0" />
-          <KpiCard title="Transacciones Totales" value="0" />
-          <KpiCard title="Ingresos Brutos" value="$0" valueClassName="text-green-600" />
-          <KpiCard title="Pedidos Completados" value="0" />
+          <KpiCard 
+            title="Usuarios Activos" 
+            value={metrics.activeUsers.toLocaleString('es-AR')} 
+          />
+          <KpiCard 
+            title="Transacciones Totales" 
+            value={metrics.totalTransactions.toLocaleString('es-AR')} 
+          />
+          <KpiCard 
+            title="Ingresos Brutos" 
+            value={formatCurrency(metrics.grossRevenue)} 
+            valueClassName="text-green-600" 
+          />
+          <KpiCard 
+            title="Pedidos Completados" 
+            value={metrics.completedOrders.toLocaleString('es-AR')} 
+          />
         </div>
 
         {/* 2. Sección de Gráficos  */}
