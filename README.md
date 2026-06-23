@@ -7,6 +7,8 @@ Herramienta de reportes consolidados (Etapa 3): métricas del sistema completo c
 
 ## Link al Deploy: 
 
+https://etapa-3-analytics-dashboard-compuli.vercel.app/
+
 ## Credenciales de prueba
 
 *(Nota: Si Clerk solicita un código de confirmación al iniciar sesión, es **424242** para ambas cuentas).*
