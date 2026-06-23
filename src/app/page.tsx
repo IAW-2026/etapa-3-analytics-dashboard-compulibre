@@ -31,10 +31,11 @@ export default async function AnalyticsDashboard() {
         </header>
 
         {/* 1. Sección de Tarjetas*/}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
           <KpiCard title="Usuarios Compradores" value={buyer.activeBuyers.toLocaleString('es-AR')}/>
           <KpiCard title="Vendedores Activos" value={seller.activeSellers.toLocaleString('es-AR')}/>
           <KpiCard title="Pedidos Realizados" value={buyer.totalOrdersPlaced.toLocaleString('es-AR')}/>
+          <KpiCard title="Productos publicados" value={seller.totalProducts.toLocaleString('es-AR')}/>
           <KpiCard title="Volumen Total Procesado" value={formatCurrency(payments.grossRevenue)} valueClassName="text-green-600" subtitle={ `Promedio por compra: ${payments.grossRevenue / payments.totalTransactions || 0}` } />
         </div>
 
