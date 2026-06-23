@@ -13,8 +13,16 @@ export default function ShippingStatusChart({ completed, pending }: { completed:
   if (completed === 0 && pending === 0) return <p className="text-gray-500 text-sm">No hay datos logísticos.</p>;
 
   return (
-    <div className="w-full">
-      <ResponsiveContainer width="100%" height={300}>
+    <div className="w-full flex flex-col h-full">
+        <div className="mb-4 flex items-center justify-between">
+            <span className="text-sm text-gray-500">Volumen logístico</span>
+            <span className="bg-blue-100 text-blue-800 text-xs font-bold px-2 py-1 rounded-full">
+                envíos totales {completed + pending}
+            </span>
+        </div>
+
+        <div className="w-full">
+        <ResponsiveContainer width="100%" height={300}>
         <PieChart>
           <Pie
             data={data}
@@ -40,6 +48,7 @@ export default function ShippingStatusChart({ completed, pending }: { completed:
           <Legend verticalAlign="bottom" height={36} iconType="circle" />
         </PieChart>
       </ResponsiveContainer>
+        </div>
     </div>
   );
 }

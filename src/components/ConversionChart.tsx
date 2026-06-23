@@ -17,7 +17,8 @@ export default function ConversionChart({ orders, payments }: { orders: number, 
   return (
     <div className="w-full flex flex-col h-full">
       <div className="mb-4 flex items-center justify-between">
-        <span className="bg-green-100 text-green-800 text-xs font-bold px-2 py-1 rounded-full">
+        <span className="text-sm text-gray-500">Tasa de éxito general</span>
+        <span className="bg-blue-100 text-blue-800 text-xs font-bold px-2 py-1 rounded-full">
           {conversionRate}% Conversión
         </span>
       </div>

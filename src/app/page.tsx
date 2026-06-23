@@ -30,11 +30,10 @@ export default async function AnalyticsDashboard() {
         </header>
 
         {/* 1. Sección de Tarjetas*/}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <KpiCard title="Usuarios Compradores" value={buyer.activeBuyers.toLocaleString('es-AR')}/>
           <KpiCard title="Vendedores Activos" value={seller.activeSellers.toLocaleString('es-AR')}/>
           <KpiCard title="Pedidos Realizados" value={buyer.totalOrdersPlaced.toLocaleString('es-AR')}/>
-          <KpiCard title="Envíos Completados" value={shipping.completedDeliveries.toLocaleString('es-AR')} subtitle={`De ${shipping.pendingDeliveries + shipping.completedDeliveries} envios totales`} />
           <KpiCard title="Volumen Total Procesado" value={formatCurrency(payments.grossRevenue)} valueClassName="text-green-600" subtitle={ `Promedio por compra: ${payments.grossRevenue / payments.totalTransactions || 0}` } />
         </div>
 
@@ -70,7 +69,7 @@ export default async function AnalyticsDashboard() {
 
           {/* Mitad Derecha: Conversión */}
           <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col">
-            <h3 className="text-lg font-semibold text-gray-800 mb-6">Tasa de Conversión</h3>
+            <h3 className="text-lg font-semibold text-gray-800 mb-6">Checkouts completados</h3>
             <div className="flex-1">
               <ConversionChart 
                 orders={buyer.totalOrdersPlaced} 
