@@ -37,7 +37,7 @@ export default async function AnalyticsDashboard() {
           <KpiCard title="Vendedores Activos" value={seller.activeSellers.toLocaleString('es-AR')}/>
           <KpiCard title="Pedidos Realizados" value={buyer.carts.total.toLocaleString('es-AR')}/>
           <KpiCard title="Productos publicados" value={seller.totalProducts.toLocaleString('es-AR')}/>
-          <KpiCard title="Volumen Total Procesado" value={formatCurrency(payments.grossRevenue)} valueClassName="text-green-600" subtitle={ `Promedio por compra: ${payments.grossRevenue / payments.totalTransactions || 0}` } />
+          <KpiCard title="Volumen Total Procesado" value={formatCurrency(payments.grossRevenue)} valueClassName="text-green-600" subtitle={`Promedio por compra: ${formatCurrency(payments.grossRevenue / payments.totalTransactions || 0)}`} />
         </div>
 
         {/* 2. Sección de Gráficos  */}
