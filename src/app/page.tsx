@@ -36,9 +36,10 @@ export default async function AnalyticsDashboard() {
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }).format(amount);
-  };  
+  };
 
   return (
+
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Navbar />
 
@@ -58,7 +59,9 @@ export default async function AnalyticsDashboard() {
           <KpiCard title="Vendedores Activos" value={seller.activeSellers.toLocaleString('es-AR')}/>
           <KpiCard title="Volumen Total Procesado" value={formatCurrency(payments.grossRevenue)} valueClassName="text-green-600"/>
           <KpiCard title="Envíos Completados" value={shipping.completedDeliveries.toLocaleString('es-AR')}/>
+          <KpiCard title="Envíos Pendientes" value={shipping.pendingDeliveries.toLocaleString('es-AR')}/>
         </div>
+
 
         {/* 2. Sección de Gráficos  */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -82,3 +85,4 @@ export default async function AnalyticsDashboard() {
     </div>
   );
 }
+
