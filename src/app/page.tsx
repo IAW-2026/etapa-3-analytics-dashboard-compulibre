@@ -5,6 +5,7 @@ import CategoryChart from "@/components/CategoryChart";
 import { getGlobalAnalytics } from "@/services/analyticsService";
 import ShippingStatusChart from "@/components/ShippingStatusChart";
 import ConversionChart from "@/components/ConversionChart";
+import LeaderboardChart from "@/components/LeaderboardChart";
 
 export default async function AnalyticsDashboard() {
 
@@ -49,7 +50,7 @@ export default async function AnalyticsDashboard() {
           <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col">
             <h3 className="text-lg font-semibold text-gray-800 mb-6">Distribución de Ventas</h3>
             <div className="flex-1">
-              <CategoryChart data={seller.categoryChart} />
+              <LeaderboardChart data={seller.categoryChart} />
             </div>
           </div>
 
