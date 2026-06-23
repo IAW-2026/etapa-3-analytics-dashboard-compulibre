@@ -13,8 +13,17 @@ export interface SellerData {
 }
 
 export interface BuyerData {
-  activeBuyers: number;
-  totalOrdersPlaced: number;
+  users: {
+    total: number;
+  };
+  carts: {
+    total: number;
+    active: number;
+    converted: number;
+    cancelledManual: number;
+    rejectedGateway: number;
+    conversionRate: string;
+  };
 }
 
 export interface ShippingData {
