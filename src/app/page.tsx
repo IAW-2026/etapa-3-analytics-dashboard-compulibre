@@ -1,20 +1,42 @@
 import Navbar from "@/components/Navbar";
 import KpiCard from "@/components/Tarjeta";
-import { mockDashboardData } from "@/lib/mockData";
+import RevenueChart from "@/components/RevenueChart";
+import CategoryChart from "@/components/CategoryChart";
+import { PaymentsData, SellerData, BuyerData, ShippingData } from "@/types/dashboard";
 
-export default function AnalyticsDashboard() {
+async function fetchService<T>(url: string | undefined): Promise<T | null> {
+  if (!url) return null;
+  try {
+    const res = await fetch(`${url}/api/analytics/summary`, {
+      headers: { 'x-api-key': process.env.ANALYTICS_API_KEY || '' },
+      next: { revalidate: 60 } // Cachea por 60 segundos para no saturar a las otras apps
+    });
+    if (!res.ok) return null;
+    return res.json();
+  } catch (error) {
+    return null;
+  }
+}
 
-  // Extraemos las métricas de nuestros datos simulados
-  const { metrics } = mockDashboardData;
+export default async function AnalyticsDashboard() {
 
-  // Helper para formatear moneda local
+  // Disparamos las 4 peticiones en paralelo
+  const [paymentsRes, sellerRes, buyerRes, shippingRes] = await Promise.allSettled([
+    fetchService<PaymentsData>(process.env.PAYMENTS_APP_URL),
+    fetchService<SellerData>(process.env.SELLER_APP_URL),
+    fetchService<BuyerData>(process.env.BUYER_APP_URL),
+    fetchService<ShippingData>(process.env.SHIPPING_APP_URL),
+  ]);
+
+  // Extraemos los datos (o seteamos fallbacks si alguna falló)
+  const payments = paymentsRes.status === 'fulfilled' && paymentsRes.value ? paymentsRes.value : { totalTransactions: 0, grossRevenue: 0, revenueChart: [] };
+  const seller = sellerRes.status === 'fulfilled' && sellerRes.value ? sellerRes.value : { activeSellers: 0, totalProducts: 0, categoryChart: [] };
+  const buyer = buyerRes.status === 'fulfilled' && buyerRes.value ? buyerRes.value : { activeBuyers: 0, totalOrdersPlaced: 0 };
+  const shipping = shippingRes.status === 'fulfilled' && shippingRes.value ? shippingRes.value : { completedDeliveries: 0, pendingDeliveries: 0 };
+
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('es-AR', { 
-      style: 'currency', 
-      currency: 'ARS',
-      maximumFractionDigits: 0 
-    }).format(amount);
-  };
+    return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }).format(amount);
+  };  
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -32,43 +54,28 @@ export default function AnalyticsDashboard() {
 
         {/* 1. Sección de Tarjetas*/}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <KpiCard 
-            title="Usuarios Activos" 
-            value={metrics.activeUsers.toLocaleString('es-AR')} 
-          />
-          <KpiCard 
-            title="Transacciones Totales" 
-            value={metrics.totalTransactions.toLocaleString('es-AR')} 
-          />
-          <KpiCard 
-            title="Ingresos Brutos" 
-            value={formatCurrency(metrics.grossRevenue)} 
-            valueClassName="text-green-600" 
-          />
-          <KpiCard 
-            title="Pedidos Completados" 
-            value={metrics.completedOrders.toLocaleString('es-AR')} 
-          />
+          <KpiCard title="Usuarios Compradores" value={buyer.activeBuyers.toLocaleString('es-AR')}/>
+          <KpiCard title="Vendedores Activos" value={seller.activeSellers.toLocaleString('es-AR')}/>
+          <KpiCard title="Ingresos Brutos (7 días)" value={formatCurrency(payments.grossRevenue)} valueClassName="text-green-600"/>
+          <KpiCard title="Envíos Completados" value={shipping.completedDeliveries.toLocaleString('es-AR')}/>
         </div>
 
         {/* 2. Sección de Gráficos  */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          
-          {/* Contenedor Gráfico 1 */}
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 min-h-[350px] flex flex-col">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">Evolución de Ingresos</h3>
-            <div className="flex-1 border-2 border-dashed border-gray-200 rounded-lg flex items-center justify-center bg-gray-50">
-              <span className="text-gray-400 font-medium">Espacio para Recharts LineChart</span>
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col">
+            <h3 className="text-lg font-semibold text-gray-800 mb-6">Evolución de Ingresos</h3>
+            <div className="flex-1">
+              <RevenueChart data={payments.revenueChart} />
             </div>
           </div>
 
-          {/* Contenedor Gráfico 2 */}
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 min-h-[350px] flex flex-col">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">Ventas por Categoría</h3>
-            <div className="flex-1 border-2 border-dashed border-gray-200 rounded-lg flex items-center justify-center bg-gray-50">
-              <span className="text-gray-400 font-medium">Espacio para Recharts PieChart</span>
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col">
+            <h3 className="text-lg font-semibold text-gray-800 mb-6">Distribución de Ventas</h3>
+            <div className="flex-1">
+              <CategoryChart data={seller.categoryChart} />
             </div>
           </div>
+
 
         </div>
       </main>

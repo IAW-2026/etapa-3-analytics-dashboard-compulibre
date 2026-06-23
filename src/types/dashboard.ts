@@ -1,24 +1,23 @@
 // types/dashboard.ts
 
-export interface GlobalMetrics {
-  activeUsers: number;
+export interface PaymentsData {
   totalTransactions: number;
   grossRevenue: number;
-  completedOrders: number;
+  revenueChart: { date: string; revenue: number }[];
 }
 
-export interface RevenueByDate {
-  date: string;
-  revenue: number;
+export interface SellerData {
+  activeSellers: number;
+  totalProducts: number;
+  categoryChart: { category: string; sales: number }[];
 }
 
-export interface SalesByCategory {
-  category: string;
-  sales: number;
+export interface BuyerData {
+  activeBuyers: number;
+  totalOrdersPlaced: number;
 }
 
-export interface DashboardData {
-  metrics: GlobalMetrics;
-  revenueChart: RevenueByDate[];
-  categoryChart: SalesByCategory[];
+export interface ShippingData {
+  completedDeliveries: number;
+  pendingDeliveries: number;
 }
