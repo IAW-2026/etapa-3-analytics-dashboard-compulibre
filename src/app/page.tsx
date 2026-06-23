@@ -6,6 +6,7 @@ import { getGlobalAnalytics } from "@/services/analyticsService";
 import ShippingStatusChart from "@/components/ShippingStatusChart";
 import ConversionChart from "@/components/ConversionChart";
 import LeaderboardChart from "@/components/LeaderboardChart";
+import MonthlyGoals from "@/components/MonthlyGoals";
 
 export default async function AnalyticsDashboard() {
 
@@ -56,30 +57,41 @@ export default async function AnalyticsDashboard() {
           </div>
 
           {/* 3. NUEVA SECCIÓN: Gráficos Secundarios (50/50) */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
           
-          {/* Mitad Izquierda: Logística */}
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col">
-            <h3 className="text-lg font-semibold text-gray-800 mb-6">Estado de Envíos</h3>
-            <div className="flex-1 flex items-center justify-center">
-              <ShippingStatusChart 
-                completed={shipping.completedDeliveries} 
-                pending={shipping.pendingDeliveries} 
+            {/* Mitad Izquierda: Logística */}
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col">
+              <h3 className="text-lg font-semibold text-gray-800 mb-6">Estado de Envíos</h3>
+              <div className="flex-1 flex items-center justify-center">
+                <ShippingStatusChart 
+                  completed={shipping.completedDeliveries} 
+                  pending={shipping.pendingDeliveries} 
               />
+              </div>
             </div>
-          </div>
 
-          {/* Mitad Derecha: Conversión */}
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col">
-            <h3 className="text-lg font-semibold text-gray-800 mb-6">Checkouts completados</h3>
-            <div className="flex-1">
-              <ConversionChart 
-                orders={buyer.totalOrdersPlaced} 
-                payments={payments.totalTransactions} 
+            {/* Mitad Derecha: Conversión */}
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col">
+              <h3 className="text-lg font-semibold text-gray-800 mb-6">Checkouts completados</h3>
+              <div className="flex-1">
+                <ConversionChart 
+                  orders={buyer.totalOrdersPlaced} 
+                  payments={payments.totalTransactions} 
+                />
+              </div>
+            </div>
+         </div>
+
+          {/* Metas*/}
+            <div className="mt-6 bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex-1">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">Progreso de Metas Mensuales</h3>
+              <MonthlyGoals 
+                currentRevenue={payments.grossRevenue} 
+                currentOrders={buyer.totalOrdersPlaced}
+                currentUsers={buyer.activeBuyers + seller.activeSellers}
+                currentPayments={payments.totalTransactions}
               />
             </div>
-          </div>
-        </div>
 
         </div>
       </main>
