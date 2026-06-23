@@ -7,6 +7,7 @@ import ShippingStatusChart from "@/components/ShippingStatusChart";
 import ConversionChart from "@/components/ConversionChart";
 import LeaderboardChart from "@/components/LeaderboardChart";
 import MonthlyGoals from "@/components/MonthlyGoals";
+import { CircleDollarSign, Package, Store, Tag, Users } from "lucide-react";
 
 export default async function AnalyticsDashboard() {
 
@@ -33,11 +34,11 @@ export default async function AnalyticsDashboard() {
 
         {/* 1. Sección de Tarjetas*/}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
-          <KpiCard title="Usuarios Compradores" value={buyer.users.total.toLocaleString('es-AR')}/>
-          <KpiCard title="Vendedores Activos" value={seller.activeSellers.toLocaleString('es-AR')}/>
-          <KpiCard title="Pedidos Realizados" value={buyer.carts.total.toLocaleString('es-AR')}/>
-          <KpiCard title="Productos publicados" value={seller.totalProducts.toLocaleString('es-AR')}/>
-          <KpiCard title="Volumen Total Procesado" value={formatCurrency(payments.grossRevenue)} valueClassName="text-green-600" subtitle={`Promedio por compra: ${formatCurrency(payments.grossRevenue / payments.totalTransactions || 0)}`} />
+          <KpiCard title="Usuarios Compradores" value={buyer.users.total.toLocaleString('es-AR')} icon={<Users size={20} strokeWidth={1.5}/> } /> 
+          <KpiCard title="Vendedores Activos" value={seller.activeSellers.toLocaleString('es-AR')} icon={<Store size={20} strokeWidth={1.5} />} />
+          <KpiCard title="Pedidos Realizados" value={buyer.carts.total.toLocaleString('es-AR')} icon={<Package size={20} strokeWidth={1.5} />} />
+          <KpiCard title="Productos publicados" value={seller.totalProducts.toLocaleString('es-AR')} icon={<Tag size={20} strokeWidth={1.5} />} />
+          <KpiCard title="Volumen Total Procesado" value={formatCurrency(payments.grossRevenue)} valueClassName="text-green-600" subtitle={`Promedio por compra: ${formatCurrency(payments.grossRevenue / payments.totalTransactions || 0)}`} icon={<CircleDollarSign size={20} className="text-green-500" strokeWidth={1.5} />} />
         </div>
 
         {/* 2. Sección de Gráficos  */}

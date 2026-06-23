@@ -14,7 +14,7 @@ export default function LeaderboardChart({ data }: { data: { category: string; s
         {/* Usamos layout="vertical" para dar vuelta el gráfico */}
         <BarChart data={sortedData} layout="vertical" margin={{ top: 10, right: 10, left: 40, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#E5E7EB" />
-          <XAxis type="number" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6B7280' }} />
+          <XAxis type="number" allowDecimals={false} axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6B7280' }} />
           <YAxis dataKey="category" type="category" axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: '#374151' }} width={90} />
           <Tooltip 
             cursor={{ fill: '#F9FAFB' }}
