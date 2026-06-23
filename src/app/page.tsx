@@ -56,7 +56,7 @@ export default async function AnalyticsDashboard() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <KpiCard title="Usuarios Compradores" value={buyer.activeBuyers.toLocaleString('es-AR')}/>
           <KpiCard title="Vendedores Activos" value={seller.activeSellers.toLocaleString('es-AR')}/>
-          <KpiCard title="Ingresos Brutos (7 días)" value={formatCurrency(payments.grossRevenue)} valueClassName="text-green-600"/>
+          <KpiCard title="Volumen Total Procesado" value={formatCurrency(payments.grossRevenue)} valueClassName="text-green-600"/>
           <KpiCard title="Envíos Completados" value={shipping.completedDeliveries.toLocaleString('es-AR')}/>
         </div>
 
