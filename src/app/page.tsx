@@ -58,9 +58,17 @@ export default async function AnalyticsDashboard() {
           <KpiCard title="Usuarios Compradores" value={buyer.activeBuyers.toLocaleString('es-AR')}/>
           <KpiCard title="Vendedores Activos" value={seller.activeSellers.toLocaleString('es-AR')}/>
           <KpiCard title="Volumen Total Procesado" value={formatCurrency(payments.grossRevenue)} valueClassName="text-green-600"/>
-          <KpiCard title="Envíos Completados" value={shipping.completedDeliveries.toLocaleString('es-AR')}/>
-          <KpiCard title="Envíos Pendientes" value={shipping.pendingDeliveries.toLocaleString('es-AR')}/>
+
+          <div className="lg:col-span-1 sm:col-span-2 col-span-1">
+            <h3 className="text-sm font-semibold text-gray-800 mb-3">Estadisticas shipping</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <KpiCard title="Envíos Completados" value={shipping.completedDeliveries.toLocaleString('es-AR')}/>
+              <KpiCard title="Envíos Pendientes" value={shipping.pendingDeliveries.toLocaleString('es-AR')}/>
+            </div>
+          </div>
         </div>
+
+
 
 
         {/* 2. Sección de Gráficos  */}
