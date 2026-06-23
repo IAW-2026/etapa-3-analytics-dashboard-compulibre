@@ -2,37 +2,11 @@ import Navbar from "@/components/Navbar";
 import KpiCard from "@/components/Tarjeta";
 import RevenueChart from "@/components/RevenueChart";
 import CategoryChart from "@/components/CategoryChart";
-import { PaymentsData, SellerData, BuyerData, ShippingData } from "@/types/dashboard";
-
-async function fetchService<T>(url: string | undefined): Promise<T | null> {
-  if (!url) return null;
-  try {
-    const res = await fetch(`${url}/api/analytics/summary`, {
-      headers: { 'x-api-key': process.env.ANALYTICS_API_KEY || '' },
-      next: { revalidate: 60 } // Cachea por 60 segundos para no saturar a las otras apps
-    });
-    if (!res.ok) return null;
-    return res.json();
-  } catch (error) {
-    return null;
-  }
-}
+import { getGlobalAnalytics } from "@/services/analyticsService";
 
 export default async function AnalyticsDashboard() {
 
-  // Disparamos las 4 peticiones en paralelo
-  const [paymentsRes, sellerRes, buyerRes, shippingRes] = await Promise.allSettled([
-    fetchService<PaymentsData>(process.env.PAYMENTS_APP_URL),
-    fetchService<SellerData>(process.env.SELLER_APP_URL),
-    fetchService<BuyerData>(process.env.BUYER_APP_URL),
-    fetchService<ShippingData>(process.env.SHIPPING_APP_URL),
-  ]);
-
-  // Extraemos los datos (o seteamos fallbacks si alguna falló)
-  const payments = paymentsRes.status === 'fulfilled' && paymentsRes.value ? paymentsRes.value : { totalTransactions: 0, grossRevenue: 0, revenueChart: [] };
-  const seller = sellerRes.status === 'fulfilled' && sellerRes.value ? sellerRes.value : { activeSellers: 0, totalProducts: 0, categoryChart: [] };
-  const buyer = buyerRes.status === 'fulfilled' && buyerRes.value ? buyerRes.value : { activeBuyers: 0, totalOrdersPlaced: 0 };
-  const shipping = shippingRes.status === 'fulfilled' && shippingRes.value ? shippingRes.value : { completedDeliveries: 0, pendingDeliveries: 0 };
+  const { payments, seller, buyer, shipping } = await getGlobalAnalytics();
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }).format(amount);
