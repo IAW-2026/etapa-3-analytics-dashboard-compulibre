@@ -36,9 +36,10 @@ export default async function AnalyticsDashboard() {
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }).format(amount);
-  };  
+  };
 
   return (
+
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Navbar />
 
@@ -83,3 +84,4 @@ export default async function AnalyticsDashboard() {
     </div>
   );
 }
+
