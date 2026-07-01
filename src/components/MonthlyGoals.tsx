@@ -12,10 +12,10 @@ export default function MonthlyGoals({
   currentPayments 
 }: MonthlyGoalsProps) {
   
-  const GOAL_REVENUE = 10000000; 
-  const GOAL_ORDERS = 80;      
+  const GOAL_REVENUE = 80000000; 
+  const GOAL_ORDERS = 200;      
   const GOAL_USERS = 20;       
-  const GOAL_PAYMENTS = 100;    
+  const GOAL_PAYMENTS = 150;    
 
   const revenuePercent = Math.min(Math.round((currentRevenue / GOAL_REVENUE) * 100), 100) || 0;
   const ordersPercent = Math.min(Math.round((currentOrders / GOAL_ORDERS) * 100), 100) || 0;
